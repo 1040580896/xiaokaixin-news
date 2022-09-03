@@ -161,6 +161,7 @@ public class ResponseResult<T> implements Serializable {
         list.add("itcast");
         list.add("itheima");
         responseResult.setData(list);
+        // System.out.println(responseResult);
         System.out.println(JSON.toJSONString(responseResult));
 
     }

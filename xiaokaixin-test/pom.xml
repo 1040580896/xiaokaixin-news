@@ -11,6 +11,10 @@
 
     <groupId>com.xiaokaixin</groupId>
     <artifactId>xiaokaixin-test</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>freemarker-demo</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

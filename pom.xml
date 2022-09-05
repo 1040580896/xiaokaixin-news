@@ -11,6 +11,7 @@
         <module>xiaokaixin-service</module>
         <module>xiaokaixin-test</module>
         <module>xiaokaixin-utils</module>
+        <module>xiaokaixin-basic</module>
     </modules>
     <!-- 继承Spring boot工程 -->
     <parent>

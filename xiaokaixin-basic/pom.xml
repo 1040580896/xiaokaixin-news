@@ -10,11 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xiaokaixin</groupId>
-    <artifactId>xiaokaixin-test</artifactId>
+    <artifactId>xiaokaixin-basic</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>freemarker-demo</module>
-        <module>minio-demo</module>
+        <module>xiaokaixin-file-starter</module>
     </modules>
 
     <properties>

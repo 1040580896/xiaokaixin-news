@@ -1,8 +1,8 @@
 server:
-  port: 51801
+  port: 51803
 spring:
   application:
-    name: leadnews-user
+    name: leadnews-wemedia
   cloud:
     nacos:
       discovery:
@@ -10,6 +10,8 @@ spring:
       config:
         server-addr: 192.168.93.31:8848
         file-extension: yml
+
+#    去除CONDITIONS EVALUATION
 logging:
   level:
     org:

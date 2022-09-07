@@ -10,6 +10,10 @@ spring:
       config:
         server-addr: 192.168.93.31:8848
         file-extension: yml
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
 
 #    去除CONDITIONS EVALUATION
 logging:
@@ -19,3 +23,5 @@ logging:
         boot:
           autoconfigure:
             logging: info
+
+# 设置图片上传大小

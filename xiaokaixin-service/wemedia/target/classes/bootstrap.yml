@@ -25,9 +25,9 @@ logging:
             logging: info
 
 # 设置图片上传大小
-
-aliyun:
-  accessKeyId: LTAI5tCWHCcfvqQzu8k2oKmX
-  secret: auoKUFsghimbfVQHpy7gtRyBkoR4vc
-  #aliyun.scenes=porn,terrorism,ad,qrcode,live,logo
-  scenes: terrorism
+#
+#aliyun:
+#  accessKeyId: LTAI5tCWHCcfvqQzu8k2oKmX
+#  secret: auoKUFsghimbfVQHpy7gtRyBkoR4vc
+#  #aliyun.scenes=porn,terrorism,ad,qrcode,live,logo
+#  scenes: terrorism

@@ -13,14 +13,14 @@ import com.xiaokaixin.model.common.dtos.ResponseResult;
 import com.xiaokaixin.model.common.enums.AppHttpCodeEnum;
 import com.xiaokaixin.model.wemedia.dtos.WmNewsDto;
 import com.xiaokaixin.model.wemedia.dtos.WmNewsPageReqDto;
-import com.xiaokaixin.model.wemedia.pojos.WmMaterial;
-import com.xiaokaixin.model.wemedia.pojos.WmNews;
-import com.xiaokaixin.model.wemedia.pojos.WmNewsMaterial;
-import com.xiaokaixin.model.wemedia.pojos.WmUser;
+import com.xiaokaixin.model.wemedia.pojos.*;
+import com.xiaokaixin.utils.common.SensitiveWordUtil;
 import com.xiaokaixin.utils.thread.WmThreadLocalUtil;
 import com.xiaokaixin.wemedia.mapper.WmMaterialMapper;
 import com.xiaokaixin.wemedia.mapper.WmNewsMapper;
 import com.xiaokaixin.wemedia.mapper.WmNewsMaterialMapper;
+import com.xiaokaixin.wemedia.mapper.WmSensitiveMapper;
+import com.xiaokaixin.wemedia.service.WmNewsAutoScanService;
 import com.xiaokaixin.wemedia.service.WmNewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +40,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implements WmNewsService {
 
+    @Autowired
+    private WmNewsAutoScanService wmNewsAutoScanService;
     /**
      * 查询文章
      * @param dto
@@ -141,6 +143,11 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
 
         //4.不是草稿，保存文章封面图片与素材的关系，如果当前布局是自动，需要匹配封面图片
         saveRelativeInfoForCover(dto,wmNews,materials);
+
+
+
+        //5.审核文章 异步调用，不会影响发布文章的流程
+        wmNewsAutoScanService.autoScanWmNews(wmNews.getId());
 
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
 
@@ -276,5 +283,10 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
         }
 
     }
+
+    @Autowired
+    private WmSensitiveMapper wmSensitiveMapper;
+
+
    
 }

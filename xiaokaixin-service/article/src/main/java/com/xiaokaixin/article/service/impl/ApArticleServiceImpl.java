@@ -7,6 +7,7 @@ import com.xiaokaixin.article.mapper.ApArticleConfigMapper;
 import com.xiaokaixin.article.mapper.ApArticleContentMapper;
 import com.xiaokaixin.article.mapper.ApArticleMapper;
 import com.xiaokaixin.article.service.ApArticleService;
+import com.xiaokaixin.article.service.ArticleFreemarkerService;
 import com.xiaokaixin.common.constants.ArticleConstants;
 import com.xiaokaixin.model.article.dtos.ArticleDto;
 import com.xiaokaixin.model.article.dtos.ArticleHomeDto;
@@ -42,6 +43,9 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
 
     @Autowired
     private ApArticleContentMapper apArticleContentMapper;
+
+    @Autowired
+    ArticleFreemarkerService articleFreemarkerService;
 
     /**
      * 根据参数加载文章列表
@@ -122,6 +126,11 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
             apArticleContent.setContent(dto.getContent());
             apArticleContentMapper.updateById(apArticleContent);
         }
+
+        //异步调用 生成静态文件上传到minio中
+        articleFreemarkerService.buildArticleToMinIO(apArticle,dto.getContent());
+
+
 
 
         //3.结果返回  文章的id

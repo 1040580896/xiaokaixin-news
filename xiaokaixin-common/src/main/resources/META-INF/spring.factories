@@ -3,4 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.xiaokaixin.common.swagger.SwaggerConfiguration,\
   com.xiaokaixin.common.swagger.Swagger2Configuration,\
   com.xiaokaixin.common.aliyun.GreenImageScan,\
-  com.xiaokaixin.common.aliyun.GreenTextScan
+  com.xiaokaixin.common.aliyun.GreenTextScan,\
+  com.xiaokaixin.common.tess4j.Tess4jClient

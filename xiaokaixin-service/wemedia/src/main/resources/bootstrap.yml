@@ -31,3 +31,7 @@ logging:
 #  secret: auoKUFsghimbfVQHpy7gtRyBkoR4vc
 #  #aliyun.scenes=porn,terrorism,ad,qrcode,live,logo
 #  scenes: terrorism
+
+tess4j:
+  data-path: /Users/xiaokaixin/Desktop/Graduation Project/黑马头条/day04-自媒体文章审核/资料/tessdata/chi_sim.traineddata
+  language: chi_sim

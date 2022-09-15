@@ -2,9 +2,11 @@ package com.xiaokaixin.wemedia.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.xiaokaixin.apis.article.IArticleClient;
 import com.xiaokaixin.common.aliyun.GreenImageScan;
 import com.xiaokaixin.common.aliyun.GreenTextScan;
+import com.xiaokaixin.common.tess4j.Tess4jClient;
 import com.xiaokaixin.file.service.FileStorageService;
 import com.xiaokaixin.model.article.dtos.ArticleDto;
 import com.xiaokaixin.model.common.dtos.ResponseResult;
@@ -19,6 +21,7 @@ import com.xiaokaixin.wemedia.mapper.WmSensitiveMapper;
 import com.xiaokaixin.wemedia.mapper.WmUserMapper;
 import com.xiaokaixin.wemedia.service.WmNewsAutoScanService;
 import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -131,6 +137,9 @@ public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
     @Autowired
     private GreenImageScan greenImageScan;
 
+
+    @Autowired
+    private Tess4jClient tess4jClient;
     /**
      * 审核图片
      * @param images
@@ -151,8 +160,23 @@ public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
 
         List<byte[]> imageList = new ArrayList<>();
 
+        // bytes 转为bufferedImage
         for (String image : images) {
             byte[] bytes = fileStorageService.downLoadFile(image);
+            // 图片识别
+            ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+            try {
+                String result = tess4jClient.doOCR(ImageIO.read(in));
+                //过滤文字
+                boolean isSenstive = handleSensitiveScan(result, wmNews);
+                if(!isSenstive){
+                    return isSenstive;
+                }
+            } catch (TesseractException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             imageList.add(bytes);
         }
 
